@@ -1,8 +1,14 @@
-## Microserviço para cliente do Banco Nix realizar suas transações
+# Microserviço para cliente do Banco Nix realizar suas transações
 
   API REST para efetuar transferências no sistema do Banco Nix
 
-# Desenvolvido com BDD
+## Desenvolvido com BDD, SQLAlchemy e Bottle
+
+    Requisitos do sistema:
+    
+        - behave
+        - sqlalchemy
+        - bottle
 
 **Realizar os testes**
 
