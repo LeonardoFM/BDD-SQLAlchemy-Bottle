@@ -5,7 +5,7 @@
 ## Desenvolvido com BDD, SQLAlchemy e Bottle
 
     Requisitos do sistema:
-    
+
         - behave
         - sqlalchemy
         - bottle
@@ -21,11 +21,12 @@
 
    - a implementação foi usando sqlalchemy: app/core.py
    - querys foram implementadas:
-      -[x] inclusão de usuários
-      -[x] inclusão de transferências
-      -[x] busca por usuário
-      -[x] busca por transferências feita por um determinado usuário
-      -[x] busca por transferências feita por um determinado por data
-      -[x] busca por transferências feita por um determinado
-      -[] paginação
-      -[] retornar a somatória total de transferências
+
+      - [x] inclusão de usuários
+      - [x] inclusão de transferências
+      - [x] busca por usuário
+      - [x] busca por transferências feita por um determinado usuário
+      - [x] busca por transferências feita por um determinado por data
+      - [x] busca por transferências feita por um determinado
+      - [] paginação
+      - [] retornar a somatória total de transferências
