@@ -28,5 +28,5 @@
       - [x] busca por transferências feita por um determinado usuário
       - [x] busca por transferências feita por um determinado por data
       - [x] busca por transferências feita por um determinado
-      - [] paginação
-      - [] retornar a somatória total de transferências
+      - [ ] paginação
+      - [ ] retornar a somatória total de transferências
