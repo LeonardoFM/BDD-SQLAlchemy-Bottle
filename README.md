@@ -38,8 +38,8 @@
 
    - para alguns testes de comportamento é necessário incluir itens nas tabelas (usuarios e transferencia)
      feramenta complementar foi o Postman usando os endereços para POST e GET:
-              http://localhost:8080/usuarios
-              http://localhost:8080/transferencia
+      - http://localhost:8080/usuarios
+      - http://localhost:8080/transferencia
 
 
 **Banco de dados**
