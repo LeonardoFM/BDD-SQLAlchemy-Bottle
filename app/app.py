@@ -6,11 +6,11 @@ from app.core import search_all_users, insert_user, insert_transfer, search_tran
 app = Bottle()
 
 @app.get('/')
-def index_map():
+def index_map(): #chamada teste do bdd convocando a raiz
     return dumps({"usuarios": "url/usuarios","transferencia":"url/transferencia"})
 
 @app.get('/transferencia/<date>')
-def transfer_map(date):
+def transfer_map(date): #
     return search_transfer_by_date(date)
 
 
@@ -35,6 +35,7 @@ def post_transferencia():
         response.status = 201 # Created
     else:
         response.status = 409 #conflito
+        print(response.status,": pode não existir nenhum cliente no banco de dados")
 
     return dumps({response.status: transf})
 

@@ -26,9 +26,12 @@ transfer_table = Table('transferencia',metadata,
                     Column('valor',Float(15)),
                     Column('tipo',String(4)),
                     Column('status',String(12)),
-                    Column('data',DateTime, default=datetime.datetime.utcnow)
+                    #Column('data',DateTime, default=datetime.datetime.utcnow)
                     )
+
+
 metadata.create_all()
+
 
 def id_user(nome):
     sel = select([user_table]).where(user_table.c.nome==nome)
@@ -39,19 +42,24 @@ def id_user(nome):
         print("Id não encontrado no banco de dados: base_banco_nix.db")
         print("Necessário fazer cadastro de ",nome)
 
+
 def hour_now():
     hnow = datetime.datetime.utcnow().strftime('%B %d %Y - %H:%M:%S')
     hr = hnow.split(' ')[4].split(':')
-    return int(hr[0]) # sync
+    return int(hr[0])
+
 
 def search_all_users():
     return {_id: {"nome":nome,"cnpj":cnpj} for _id, nome, cnpj in select([user_table]).execute()}
 
+
 def search_transfer_by_date(key:DateTime):
-    return {_id: {'usuario_id':usuario_id} for _id, usuario_id in select([transfer_table.c.date == key]).execute()}
+    return {_id: {'usuario_id':usuario_id} for _id, usuario_id in select([transfer_table.c.data == key]).execute()}
+
 
 def search_transfer_by_pagador(key:String):
     return {_id: {'usuario_id':usuario_id} for _id, usuario_id in select([transfer_table.c.pagador_nome == key]).execute()}
+
 
 def search_transfer_by_beneficiario(key:String):
     return {_id: {'usuario_id':usuario_id} for _id, usuario_id in select([transfer_table.c.beneficiario_nome == key]).execute()}
@@ -62,13 +70,16 @@ def insert_transfer(name,pbank,pag,pcc,
                     value):
     if float(value) <= 100000.0:
         sts = 'OK'
+
     else:
         sts = 'ERRO'
 
     if (pbank == bbank):
         tp = 'CC'
+
     elif (10 <= hour_now() <= 16) and (float(value) < 5000.0):
         tp = 'TED'
+
     else:
         tp = 'DOC'
 
@@ -89,9 +100,11 @@ def insert_transfer(name,pbank,pag,pcc,
     try:
         conn.execute(n_transf)
         status = True
+
     except Exception as e:
         print(e)
         status = False
+
     finally:
         conn.close()
         return status

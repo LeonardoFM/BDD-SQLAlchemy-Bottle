@@ -16,7 +16,7 @@ class MyServer(WSGIRefServer):
         server_cls = self.options.get('server_class', WSGIServer)
 
         srv = make_server(self.host, self.port, app, server_cls, handler_cls)
-        # THIS IS THE ONLY CHANGE TO THE ORIGINAL CLASS METHOD!
+        #
         self.srv = srv
         srv.serve_forever()
 
