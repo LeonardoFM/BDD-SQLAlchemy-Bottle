@@ -1,7 +1,15 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 ### Microserviço para expor a inserção de transação
 from json import dumps
 from bottle import Bottle, request, response
-from app.core import search_all_users, insert_user, insert_transfer, search_transfer_by_date
+from app.core import (search_all_users,
+                     insert_user,
+                     insert_transfer,
+                     search_transfer_by_date,
+                     search_transfer_by_pagador,
+                     search_transfer_by_beneficiario)
 
 app = Bottle()
 
@@ -13,6 +21,13 @@ def index_map(): #chamada teste do bdd convocando a raiz
 def transfer_map(date): #
     return search_transfer_by_date(date)
 
+@app.get('/transferencia/pagador/<nome>')
+def transfer_map(nome): #
+    return search_transfer_by_pagador(nome)
+
+@app.get('/transferencia/beneficiario/<nome>')
+def transfer_map(nome): #
+    return search_transfer_by_beneficiario(nome)
 
 @app.post('/transferencia')
 def post_transferencia():
@@ -44,7 +59,7 @@ def post_transferencia():
 def users_map():
     return search_all_users()
 
-@app.post('/usuarios')
+@app.post('/usuarios/')
 def post_users():
     user = request.json
     response.headers['Content-Type'] = 'application/json'

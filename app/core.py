@@ -1,6 +1,9 @@
 import datetime
-from sqlalchemy import (create_engine, MetaData, Column, DateTime,
-                        Table, Integer, Float, String, ForeignKey, select)
+from sqlalchemy import (create_engine, MetaData, Column, DateTime, func,
+                        Table, Integer, Float, String, ForeignKey, select, Boolean)
+
+from sqlalchemy.orm import sessionmaker
+import json
 
 engine = create_engine('sqlite:///base_banco_nix.db',
                         echo=True)
@@ -26,7 +29,8 @@ transfer_table = Table('transferencia',metadata,
                     Column('valor',Float(15)),
                     Column('tipo',String(4)),
                     Column('status',String(12)),
-                    #Column('data',DateTime, default=datetime.datetime.utcnow)
+                    #Column('sts_excluido',Boolean ),
+                    Column('data',DateTime, default=datetime.datetime.utcnow,index=True)
                     )
 
 
@@ -53,16 +57,36 @@ def search_all_users():
     return {_id: {"nome":nome,"cnpj":cnpj} for _id, nome, cnpj in select([user_table]).execute()}
 
 
-def search_transfer_by_date(key:DateTime):
-    return {_id: {'usuario_id':usuario_id} for _id, usuario_id in select([transfer_table.c.data == key]).execute()}
+def search_transfer_by_date(key):
+    d = key.split('-')
+    d[:] = {int(d[i]) for i in range(len(d))}
+    d1 = str(d[0])+'-0'+str(d[2])+'-0'+str(d[1]-1)
+    d2 = str(d[0])+'-0'+str(d[2])+'-0'+str(d[1]+1)
+    session = sessionmaker()
+    session.configure(bind=engine)
+    s = session()
+    lista = s.query(transfer_table).filter(
+                                           transfer_table.c.data > d1,
+                                           transfer_table.c.data < d2
+                                           ).all()[:]
 
+    return transfers_out(key,lista)
 
 def search_transfer_by_pagador(key:String):
-    return {_id: {'usuario_id':usuario_id} for _id, usuario_id in select([transfer_table.c.pagador_nome == key]).execute()}
+    session = sessionmaker()
+    session.configure(bind=engine)
+    s = session()
+    lista = s.query(transfer_table).filter(transfer_table.c.pagador_nome == key).all()[:]
 
+    return transfers_out(key,lista)
 
 def search_transfer_by_beneficiario(key:String):
-    return {_id: {'usuario_id':usuario_id} for _id, usuario_id in select([transfer_table.c.beneficiario_nome == key]).execute()}
+    session = sessionmaker()
+    session.configure(bind=engine)
+    s = session()
+    lista = s.query(transfer_table).filter(transfer_table.c.beneficiario_nome == key).all()[:]
+
+    return transfers_out(key,lista)
 
 
 def insert_transfer(name,pbank,pag,pcc,
@@ -123,3 +147,31 @@ def insert_user(name,reg):
     finally:
         conn.close()
         return status
+
+def transfers_out(search,l):
+
+    keys = ['id',
+            'usuario_id',
+            'pagador_nome',
+            'pagador_banco',
+            'pagador_agencia',
+            'pagador_conta',
+            'beneficiario_nome',
+            'beneficiario_banco',
+            'beneficiario_agencia',
+            'beneficiario_conta',
+            'valor',
+            'tipo',
+            'status']
+    transf = []
+    for i in range(len(l)):
+        transf.append({'página':i+1})
+        transf.append(dict(zip(keys,l[i][0:13])))
+
+    return {search:{'transferências': transf},'total':total(l)}
+
+def total(lista):
+    s = 0.0
+    for i in range(len(lista)):
+        s = s + lista[i][10]
+    return s

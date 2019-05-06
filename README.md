@@ -36,8 +36,8 @@
       - o comando de execução é: behave bdd_tests/features/api.feature -t solo
       - o decorador @solo deve estar sobre a função que queremos testar
 
-   - para alguns testes de comportamento é necessário incluir itens nas tabelas (usuarios e transferencia)
-     feramenta complementar foi o Postman usando os endereços para POST e GET:
+   - para alguns testes de comportamento é necessário incluir itens nas tabelas "usuarios" e "transferencia",
+     poretia usar uma feramenta complementar como Postman operações genéricas de protocolo HTTP:
       - http://localhost:8080/usuarios
       - http://localhost:8080/transferencia
 
@@ -45,13 +45,14 @@
 **Banco de dados**
 
    - a implementação foi usando sqlalchemy: app/core.py
-   - querys foram implementadas:
+   - querys implementadas:
 
       - [x] inclusão de usuários
       - [x] inclusão de transferências
       - [x] busca por usuário
-      - [x] busca por transferências feitas por um determinado usuário
-      - [x] busca por transferências feita em uma determinada data
-      - [ ] busca por transferências feita por um determinado id
-      - [ ] paginação
-      - [ ] retornar a somatória total de transferências
+      - [x] busca por transferências feitas por um determinado pagador (http://localhost:8080/transferencia/pagador/<nome>)
+      - [x] busca por transferências feita em uma determinada data (http://localhost:8080/transferencia/<data>)
+      - [x] busca por transferências feitas por um determinado beneficiário (http://localhost:8080/transferencia/beneficiario/<nome>)
+      - [x] paginação
+      - [X] retornar a somatória total de transferências
+      - [ ] delete lógico
