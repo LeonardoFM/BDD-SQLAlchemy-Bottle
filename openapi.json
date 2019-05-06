@@ -77,7 +77,7 @@
     },
     "/transferencia/{data}": {
       "get": {
-        "summary": "Restorna as transferências feitas em uma determinada data",
+        "summary": "Restorna as transferências feitas em uma determinada data com paginação",
         "parameters": [
           {
             "name": "data",
@@ -157,7 +157,7 @@
     },
     "/transferencia/pagador/{nome}": {
       "get": {
-        "summary": "Restorna as transferências feitas por um usuário pagador",
+        "summary": "Restorna as transferências feitas por um usuário pagador com paginação",
         "parameters": [
           {
             "name": "nome",
@@ -237,7 +237,7 @@
     },
     "/transferencia/beneficiario/{nome}": {
       "get": {
-        "summary": "Restorna as transferências feitas por um usuário beneficiado",
+        "summary": "Restorna as transferências feitas por um usuário beneficiado com paginação",
         "parameters": [
           {
             "name": "nome",

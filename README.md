@@ -14,6 +14,8 @@
 
    - é necessário enviar um json pra inserir novos usuários e transferências, isto é feito usando os arquivos em bdd_tests/
 
+   - exemplo de entradas
+
       -Usuários:
 
          {"nome":"elisa","cnpj":"999jn9"}
@@ -21,7 +23,7 @@
       -Transferências:
 
          {
-          "nome":"elton",
+          "nome":"elisa",
           "pagador_banco":"003",
           "pagador_agencia":"0001",
           "pagador_conta":"00001",
@@ -32,12 +34,12 @@
           "valor":"1000000"
          }
 
-   - no arquibo bdd_tests/feature/api.feature controlamos quais testes vão rodar
+   - no arquivo bdd_tests/feature/api.feature controlamos quais testes devem rodar
       - o comando de execução é: behave bdd_tests/features/api.feature -t solo
       - o decorador @solo deve estar sobre a função que queremos testar
 
    - para alguns testes de comportamento é necessário incluir itens nas tabelas "usuarios" e "transferencia",
-     poretia usar uma feramenta complementar como Postman operações genéricas de protocolo HTTP:
+     exemplo de feramenta complementar como Postman para operações genéricas nos protocolos HTTP:
       - http://localhost:8080/usuarios
       - http://localhost:8080/transferencia
 
